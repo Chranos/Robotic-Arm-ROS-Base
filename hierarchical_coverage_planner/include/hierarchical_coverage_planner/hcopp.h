@@ -47,20 +47,39 @@ public:
   HCOPP();
   ~HCOPP();
   /* Func */
-  void init(ros::NodeHandle& nh);
-  void ExecPlan();
-  void triggerCallback(const geometry_msgs::PoseStamped::ConstPtr& goal_msg);
-  void flightCallback(const geometry_msgs::PoseWithCovarianceStamped::ConstPtr& msg);
-  /* Utils */
-  unique_ptr<hierarchical_coverage_planner> PathPlanner_;
-  unique_ptr<TrajGenerator> TrajGen_;
-  unique_ptr<PerceptionUtils> percep_utils_;
-  unique_ptr<PlanningVisualization> VisUtils_;
-  ros::Subscriber trigger_sub;
-  ros::Subscriber flight_sub;
-  /* Param */
-  ros::NodeHandle HCOPPnh;
-  double compT, freq;
+  // void init(ros::NodeHandle& nh);
+  // void ExecPlan();
+  // void triggerCallback(const geometry_msgs::PoseStamped::ConstPtr& goal_msg);
+  // void flightCallback(const geometry_msgs::PoseWithCovarianceStamped::ConstPtr& msg);
+  // /* Utils */
+  // unique_ptr<hierarchical_coverage_planner> PathPlanner_;
+  // unique_ptr<TrajGenerator> TrajGen_;
+  // unique_ptr<PerceptionUtils> percep_utils_;
+  // unique_ptr<PlanningVisualization> VisUtils_;
+  // ros::Subscriber trigger_sub;
+  // ros::Subscriber flight_sub;
+  // /* Param */
+  // ros::NodeHandle HCOPPnh;
+  // double compT, freq;
+
+    void init();  // In ROS 2, we don't need ros::NodeHandle, just use the Node class itself
+    void ExecPlan();
+    void triggerCallback(const geometry_msgs::msg::PoseStamped::SharedPtr goal_msg);
+    void flightCallback(const geometry_msgs::msg::PoseWithCovarianceStamped::SharedPtr msg);
+    
+    /* Utils */
+    unique_ptr<hierarchical_coverage_planner> PathPlanner_;
+    unique_ptr<TrajGenerator> TrajGen_;
+    unique_ptr<PerceptionUtils> percep_utils_;
+    unique_ptr<PlanningVisualization> VisUtils_;
+
+    rclcpp::Subscription<geometry_msgs::msg::PoseStamped>::SharedPtr trigger_sub;
+    rclcpp::Subscription<geometry_msgs::msg::PoseWithCovarianceStamped>::SharedPtr flight_sub;
+
+    // ROS 2 parameters (we use rclcpp::Parameter or the parameter API)
+    rclcpp::Parameter HCOPPnh;  // In ROS 2, parameters can be directly managed through the Node class
+    /* Param */
+    double compT, freq;
 };
 
 }

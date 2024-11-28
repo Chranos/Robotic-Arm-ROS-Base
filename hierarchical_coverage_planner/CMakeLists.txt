@@ -21,6 +21,41 @@ find_package(Eigen3 REQUIRED)
 find_package(ompl REQUIRED)
 find_package(OpenCV REQUIRED)
 
+
+
+# 安装 config 文件夹中的 rviz 文件
+install(
+  DIRECTORY config/
+  DESTINATION share/${PROJECT_NAME}/config
+)
+
+# 安装 data 文件
+install(
+  DIRECTORY data/
+  DESTINATION share/${PROJECT_NAME}/data
+)
+
+
+# 安装头文件
+install(DIRECTORY include/
+  DESTINATION include
+)
+
+# 安装 launch 文件夹中的 .launch.py 文件
+install(
+  DIRECTORY launch/
+  DESTINATION share/${PROJECT_NAME}/launch
+)
+
+# 安装 solution 文件夹中的 文件
+install(
+  DIRECTORY solution/
+  DESTINATION share/${PROJECT_NAME}/solution
+)
+
+
+
+
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
   # the following line skips the linter which checks for copyrights
